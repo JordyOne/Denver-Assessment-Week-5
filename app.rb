@@ -6,6 +6,7 @@ require "./lib/user_database"
 class ContactsApp < Sinatra::Base
   enable :sessions
 
+
   def initialize
     super
     @contact_database = ContactDatabase.new
@@ -21,7 +22,7 @@ class ContactsApp < Sinatra::Base
   end
 
   get "/" do
-    if current_user
+    if session[:user_id]
       erb :signed_in, locals: {username: current_user[:username]}
     else
       erb :signed_out
@@ -30,6 +31,14 @@ class ContactsApp < Sinatra::Base
 
   get "/login/new" do
     erb :"login/new"
+  end
+
+  post "/sessions" do
+    user = params[:id]
+      if user
+      session[:user_id] = user[:id]
+      end
+    redirect "/"
   end
 
   private
