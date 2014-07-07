@@ -28,6 +28,10 @@ class ContactsApp < Sinatra::Base
     end
   end
 
+  get "/login/new" do
+    erb :"login/new"
+  end
+
   private
 
   def find_user(params)
